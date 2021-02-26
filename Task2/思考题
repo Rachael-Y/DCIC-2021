@@ -1,0 +1,3 @@
+#统计每辆车运营的分钟数在进行max或者sort_values排序;
+
+taxiorder2019.sort_values(by=['CARNO','GETON_DATE'], inplace=True)
