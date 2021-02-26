@@ -1,3 +1,24 @@
 #统计每辆车运营的分钟数在进行max或者sort_values排序;
-
 taxiorder2019.sort_values(by=['CARNO','GETON_DATE'], inplace=True)
+
+
+#可视化统计巡游车20190531 - 20190609 期间平均每辆巡游车运营时间（一天之内活跃的分钟个数）变化：
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+%matplotlib inline
+import glob,gc
+
+paths=glob.glob('taxiGps20190*.csv')
+paths.sort()
+
+minute=[]
+for path in paths:
+    df=pd.read_csv(path,usecols=['CARNO','GPS_TIME'])
+    df['GPS_TIME']=df['GPS_TIME'].apply(lambda x: x[:-3])
+    minute.append(df.groupby(['CARNO'])['GPS_TIME'].nunique().mean())
+    
+    print(path,minute[-1])
+    del df;
+    gc.collect()
+
